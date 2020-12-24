@@ -17,7 +17,7 @@ import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
 const MongoStore = mongo(session);
 
 // Load environment variables from .env file, where API keys and passwords are configured
-dotenv.config({ path: ".env.example" });
+dotenv.config({ path: ".env" });
 
 // Controllers (route handlers)
 import * as homeController from "./controllers/home";
@@ -36,7 +36,9 @@ const app = express();
 const mongoUrl = MONGODB_URI;
 (<any>mongoose).Promise = bluebird;
 mongoose.connect(mongoUrl).then(
-  () => { /** ready to use. The `mongoose.connect()` promise resolves to undefined. */ },
+  () => {
+    console.log("connected DB");
+  },
 ).catch(err => {
   console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
   // process.exit();
@@ -75,10 +77,10 @@ app.use((req, res, next) => {
     req.path !== "/signup" &&
     !req.path.match(/^\/auth/) &&
     !req.path.match(/\./)) {
-    req.session.returnTo = req.path;
+    // req.session.returnTo = req.path;
   } else if (req.user &&
     req.path == "/account") {
-    req.session.returnTo = req.path;
+    // req.session.returnTo = req.path;
   }
   next();
 });
@@ -119,7 +121,7 @@ app.get("/api/facebook", passportConfig.isAuthenticated, passportConfig.isAuthor
  */
 app.get("/auth/facebook", passport.authenticate("facebook", { scope: ["email", "public_profile"] }));
 app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/login" }), (req, res) => {
-  res.redirect(req.session.returnTo || "/");
+  res.redirect("/");
 });
 
 export default app;

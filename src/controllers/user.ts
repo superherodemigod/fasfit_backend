@@ -34,6 +34,8 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
 
   const errors = req.validationErrors();
 
+  var success_flag = false;
+
   if (errors) {
     req.flash("errors", errors);
     return res.redirect("/login");
@@ -48,7 +50,12 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
     req.logIn(user, (err) => {
       if (err) { return next(err); }
       req.flash("success", { msg: "Success! You are logged in." });
-      res.redirect(req.session.returnTo || "/");
+      // res.redirect("/");
+      success_flag = true;
+      res.status(200);
+      res.json({
+        result: success_flag,
+      });
     });
   })(req, res, next);
 };
@@ -87,12 +94,15 @@ export let postSignup = (req: Request, res: Response, next: NextFunction) => {
 
   const errors = req.validationErrors();
 
+  var success_flag = false;
+
   if (errors) {
     req.flash("errors", errors);
     return res.redirect("/signup");
   }
 
   const user = new User({
+    username: req.body.username,
     email: req.body.email,
     password: req.body.password
   });
@@ -109,7 +119,11 @@ export let postSignup = (req: Request, res: Response, next: NextFunction) => {
         if (err) {
           return next(err);
         }
-        res.redirect("/");
+        success_flag = true;
+        res.status(200);
+        res.json({
+          result: success_flag,
+        });
       });
     });
   });
