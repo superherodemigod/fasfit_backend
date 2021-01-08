@@ -34,7 +34,7 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
 
   const errors = req.validationErrors();
 
-  var success_flag = false;
+  let success_flag = false;
 
   if (errors) {
     req.flash("errors", errors);
@@ -54,7 +54,7 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
       success_flag = true;
       res.status(200);
       res.json({
-        result: success_flag,
+        result: success_flag, data: user
       });
     });
   })(req, res, next);
@@ -94,7 +94,7 @@ export let postSignup = (req: Request, res: Response, next: NextFunction) => {
 
   const errors = req.validationErrors();
 
-  var success_flag = false;
+  let success_flag = false;
 
   if (errors) {
     req.flash("errors", errors);
@@ -104,9 +104,13 @@ export let postSignup = (req: Request, res: Response, next: NextFunction) => {
   const user = new User({
     username: req.body.username,
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    usertype: req.body.usertype,
+    scope_category: req.body.scope_category,
+    scope_type: req.body.scope_type
   });
 
+  // console.log("user:", user);
   User.findOne({ email: req.body.email }, (err, existingUser) => {
     if (err) { return next(err); }
     if (existingUser) {
@@ -122,7 +126,7 @@ export let postSignup = (req: Request, res: Response, next: NextFunction) => {
         success_flag = true;
         res.status(200);
         res.json({
-          result: success_flag,
+          result: success_flag
         });
       });
     });

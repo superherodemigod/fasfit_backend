@@ -19,6 +19,9 @@ export type UserDocument = mongoose.Document & {
     website: string,
     picture: string
   },
+  usertype: string,
+  scope_category: [string],
+  scope_type: [string],
 
   comparePassword: comparePasswordFunction,
   gravatar: (size: number) => string
@@ -49,7 +52,12 @@ const userSchema = new mongoose.Schema({
     location: String,
     website: String,
     picture: String
-  }
+  },
+
+  usertype: { type: String, default: 'personal' },
+  scope_category: [String],
+  scope_type: [String],
+
 }, { timestamps: true });
 
 /**
@@ -66,6 +74,8 @@ userSchema.pre("save", function save(next) {
       next();
     });
   });
+  user.scope_category.push("Season");
+  user.scope_type.push("Autumn");
 });
 
 const comparePassword: comparePasswordFunction = function (candidatePassword, cb) {
