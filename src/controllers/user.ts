@@ -51,6 +51,11 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
       if (err) { return next(err); }
       req.flash("success", { msg: "Success! You are logged in." });
       // res.redirect("/");
+      console.log("data: ", req.body);
+      if(req.body.scope_type){
+        user.scope_type = req.body.scope_type;
+        user.save();
+      }
       success_flag = true;
       res.status(200);
       res.json({
