@@ -126,7 +126,7 @@ export let postSignup = (req: Request, res: Response, next: NextFunction) => {
         success_flag = true;
         res.status(200);
         res.json({
-          result: success_flag
+          result: success_flag, data: user
         });
       });
     });
