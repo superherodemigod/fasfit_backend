@@ -106,8 +106,6 @@ export let postSignup = (req: Request, res: Response, next: NextFunction) => {
     email: req.body.email,
     password: req.body.password,
     usertype: req.body.usertype,
-    scope_category: req.body.scope_category,
-    scope_type: req.body.scope_type
   });
 
   // console.log("user:", user);
