@@ -51,11 +51,7 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
       if (err) { return next(err); }
       req.flash("success", { msg: "Success! You are logged in." });
       // res.redirect("/");
-      console.log("data: ", req.body);
-      if(req.body.scope_type){
-        user.scope_type = req.body.scope_type;
-        user.save();
-      }
+
       success_flag = true;
       res.status(200);
       res.json({
@@ -400,3 +396,17 @@ export let postForgot = (req: Request, res: Response, next: NextFunction) => {
     res.redirect("/forgot");
   });
 };
+
+export let setScope = (req: Request, res: Response, next: NextFunction) => {
+  User.findById(req.user.id, (err, user: UserDocument) => {
+    if (err) { return next(err); }
+    console.log(req.body.scope_type);
+    user.scope_type = req.body.scope_type;
+    user.save((err: WriteError) => {
+      if (err) { return next(err); }
+      req.flash("success", { msg: "ScopeType has been changed." });
+      res.redirect("/");
+    });
+  });
+  // res.send(req.user);
+}
