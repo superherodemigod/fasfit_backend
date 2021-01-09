@@ -13,7 +13,7 @@ export let index = (req: Request, res: Response) => {
 
 
 export let getUserList = (req: Request, res: Response, next: NextFunction) => {
-  console.log("user:", req.user.id);
+  // console.log("user:", req.user.id);
   let scopeType = req.user.scope_type;
   User.find({ scope_type: { $in: scopeType } }, function (err, user) {
     if (err) {
@@ -24,10 +24,21 @@ export let getUserList = (req: Request, res: Response, next: NextFunction) => {
 }
 
 export let getPostListByUser = (req: Request, res: Response, next: NextFunction) => {
-  let userId = req.body.user_id;
-  Post.find({ user_id: userId }, (err, posts) => {
-    if (err) { return next(err); }
-    res.send(posts);
+  let scopeType = req.user.scope_type;
+
+  User.find({ scope_type: { $in: scopeType } }, function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    let user_ids = new Array();
+    user.forEach((index) => {
+      user_ids.push(index._id);
+    })
+    // console.log(user_ids);
+    Post.find({ user_id: { $in: user_ids } }, (err, posts) => {
+      if (err) { return next(err); }
+      res.send(posts);
+    })
   })
 }
 
