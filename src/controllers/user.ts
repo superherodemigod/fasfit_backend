@@ -400,12 +400,11 @@ export let postForgot = (req: Request, res: Response, next: NextFunction) => {
 export let setScope = (req: Request, res: Response, next: NextFunction) => {
   User.findById(req.user.id, (err, user: UserDocument) => {
     if (err) { return next(err); }
-    console.log(req.body.scope_type);
     user.scope_type = req.body.scope_type;
     user.save((err: WriteError) => {
       if (err) { return next(err); }
       req.flash("success", { msg: "ScopeType has been changed." });
-      res.redirect("/");
+      res.send(req.user);
     });
   });
   // res.send(req.user);
