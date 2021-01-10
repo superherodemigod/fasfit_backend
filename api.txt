@@ -23,4 +23,4 @@ then you can send me user_id
 3. /getPostListByUser GET
     user_id : string
 4. /setScope POST
-    scope_type: string
+    scope_type: string array
