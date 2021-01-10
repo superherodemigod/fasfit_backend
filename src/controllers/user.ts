@@ -48,6 +48,13 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
       return res.redirect("/login");
     }
     req.logIn(user, (err) => {
+      // Save token
+      let token = req.body.token;
+      user.tokens = token;
+      user.save((err: WriteError) => {
+        if (err) { return next(err); }
+        req.flash("success", {msg: "Token is saved"});
+      });
       if (err) { return next(err); }
       req.flash("success", { msg: "Success! You are logged in." });
       // res.redirect("/");

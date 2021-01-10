@@ -1,0 +1,23 @@
+All apis that you call after login
+1. /postOneData POST
+    
+    title: string,
+    description: string,
+    image: string,
+    image_id: string,
+    like: [{
+        post_id: String,
+        like_user_id: String,
+        description: String,
+        mark: String
+    }],
+    comment: [{
+        post_id: String,
+        like_user_id: String,
+        description: String,
+        mark: String
+    }],
+2. /getUserList GET
+    no param
+3. /getPostListByUser GET
+    no param
