@@ -14,37 +14,47 @@ export let index = (req: Request, res: Response) => {
 
 export let getUserList = (req: Request, res: Response, next: NextFunction) => {
   // console.log("user:", req.user.id);
-  let scopeType = req.user.scope_type;
-  User.find({ scope_type: { $in: scopeType } }, function (err, user) {
-    if (err) {
-      return next(err);
-    }
-    res.send(user);
-  })
+  let scopeType;
+  User.findById(req.body.user_id, (err, user: UserDocument) => {
+    if (err) { return next(err); }
+    scopeType = user.scope_type;
+    User.find({ scope_type: { $in: scopeType } }, function (err, user) {
+      if (err) {
+        return next(err);
+      }
+      res.send(user);
+    })
+  });
+
 }
 
 export let getPostListByUser = (req: Request, res: Response, next: NextFunction) => {
-  let scopeType = req.user.scope_type;
+  // let scopeType = req.user.scope_type;
+  let scopeType;
+  User.findById(req.body.user_id, (err, user: UserDocument) => {
+    if (err) { return next(err); }
+    scopeType = user.scope_type;
+    User.find({ scope_type: { $in: scopeType } }, function (err, user) {
+      if (err) {
+        return next(err);
+      }
+      let user_ids = new Array();
+      user.forEach((index) => {
+        user_ids.push(index._id);
+      })
+      // console.log(user_ids);
+      Post.find({ user_id: { $in: user_ids } }, (err, posts) => {
+        if (err) { return next(err); }
+        res.send(posts);
+      })
+    })
+  });
 
-  User.find({ scope_type: { $in: scopeType } }, function (err, user) {
-    if (err) {
-      return next(err);
-    }
-    let user_ids = new Array();
-    user.forEach((index) => {
-      user_ids.push(index._id);
-    })
-    // console.log(user_ids);
-    Post.find({ user_id: { $in: user_ids } }, (err, posts) => {
-      if (err) { return next(err); }
-      res.send(posts);
-    })
-  })
 }
 
 export let postOneData = (req: Request, res: Response, next: NextFunction) => {
   const post = new Post({
-    user_id: req.user.id,
+    user_id: req.body.user_id,
     title: req.body.email,
     description: req.body.description,
     image: req.body.image,

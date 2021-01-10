@@ -1,6 +1,7 @@
-All apis that you call after login
+you can get login user data after login.
+then you can send me user_id
 1. /postOneData POST
-    
+    user_id: string
     title: string,
     description: string,
     image: string,
@@ -18,6 +19,8 @@ All apis that you call after login
         mark: String
     }],
 2. /getUserList GET
-    no param
+    user_id : string
 3. /getPostListByUser GET
-    no param
+    user_id : string
+4. /setScope POST
+    scope_type: string
