@@ -6,18 +6,8 @@ export type PostDocument = mongoose.Document & {
     description: string,
     image: string,
     image_id: string,
-    like: [{
-        post_id: string,
-        like_user_id: string,
-        description: string,
-        mark: string
-    }],
-    comment: [{
-        post_id: string,
-        comment_user_id: string,
-        description: string,
-        mark: string
-    }]
+    total_likes: string,
+    total_comments: string
 };
 
 const postSchema = new mongoose.Schema({
@@ -25,19 +15,8 @@ const postSchema = new mongoose.Schema({
     title: String,
     description: String,
     image: String,
-    image_id: String,
-    like: [{
-        post_id: String,
-        like_user_id: String,
-        description: String,
-        mark: String
-    }],
-    comment: [{
-        post_id: String,
-        comment_user_id: String,
-        description: String,
-        mark: String
-    }]
+    total_likes: String,
+    total_comments: String
 }, { timestamps: true });
 
 export const Post = mongoose.model<PostDocument>("Post", postSchema);
