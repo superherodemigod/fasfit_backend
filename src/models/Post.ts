@@ -6,8 +6,8 @@ export type PostDocument = mongoose.Document & {
     description: string,
     image: string,
     image_id: string,
-    total_likes: string,
-    total_comments: string
+    total_likes: number,
+    total_comments: number
 };
 
 const postSchema = new mongoose.Schema({
@@ -15,8 +15,8 @@ const postSchema = new mongoose.Schema({
     title: String,
     description: String,
     image: String,
-    total_likes: String,
-    total_comments: String
+    total_likes: Number,
+    total_comments: Number
 }, { timestamps: true });
 
 export const Post = mongoose.model<PostDocument>("Post", postSchema);

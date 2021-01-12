@@ -25,7 +25,6 @@ export let getUserList = (req: Request, res: Response, next: NextFunction) => {
       res.send(user);
     })
   });
-
 }
 
 export let getPostListByUser = (req: Request, res: Response, next: NextFunction) => {
@@ -58,9 +57,8 @@ export let postOneData = (req: Request, res: Response, next: NextFunction) => {
     title: req.body.email,
     description: req.body.description,
     image: req.body.image,
-    image_id: req.body.image_id,
-    like: req.body.like,
-    comment: req.body.comment
+    total_likes: 0,
+    total_comments: 0
   });
 
   post.save((err) => {

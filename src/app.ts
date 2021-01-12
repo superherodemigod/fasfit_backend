@@ -24,6 +24,7 @@ import * as homeController from "./controllers/home";
 import * as userController from "./controllers/user";
 import * as apiController from "./controllers/api";
 import * as contactController from "./controllers/contact";
+import * as profileController from "./controllers/profile";
 
 
 // API keys and Passport configuration
@@ -113,6 +114,8 @@ app.get("/account/unlink/:provider", passportConfig.isAuthenticated, userControl
 app.get("/getUserList", homeController.getUserList);
 app.post("/postOneData", homeController.postOneData);
 app.get("/getPostListByUser", homeController.getPostListByUser);
+app.get("/getUserProfile", profileController.getUserProfile);
+app.get("/changeUserProfile", profileController.changeUserProfile);
 /**
  * API examples routes.
  */

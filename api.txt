@@ -1,26 +1,28 @@
 you can get login user data after login.
 then you can send me user_id
-1. /postOneData POST
+1. /postOneData         POST
     user_id: string
     title: string,
     description: string,
     image: string,
     image_id: string,
-    like: [{
-        post_id: String,
-        like_user_id: String,
-        description: String,
-        mark: String
-    }],
-    comment: [{
-        post_id: String,
-        like_user_id: String,
-        description: String,
-        mark: String
-    }],
-2. /getUserList GET
+    total_comments: number,
+    total_likes: number
+2. /getUserList         GET
     user_id : string
-3. /getPostListByUser GET
+3. /getPostListByUser   GET
     user_id : string
-4. /setScope POST
+4. /setScope            POST
     scope_type: string array
+5. /changeUserProfile   POST
+    user_id: string
+    profile: {
+        name: string,
+        gender: string,
+        location: string,
+        website: string,
+        picture: string
+    },
+    scope_type: string
+6. /getUserProfile      GET 
+    user_id: string
