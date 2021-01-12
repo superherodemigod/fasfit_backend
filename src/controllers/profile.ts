@@ -46,3 +46,47 @@ export let changeUserProfile = (req: Request, res: Response, next: NextFunction)
         });
     });
 }
+
+export let followInvitation = (req: Request, res: Response, next: NextFunction) => {
+    let user_id = req.body.user_id;
+    let follower_id = req.body.follower_id;
+
+    const user_follower = new UserFollower({
+        user_id: user_id,
+        follower_id: follower_id,
+        state: "pending"
+    });
+
+    UserFollower.findOne({ $and: [{ user_id: user_id }, { follower_id: follower_id }] }, (err, existingFollower) => {
+        if (err) { return next(err); }
+        if (!existingFollower) {
+            user_follower.save((err) => {
+                if (err) { return next(err); }
+                res.status(200);
+                res.send("Sent request invitation");
+            });
+        } else {
+            res.send("Same follower is exist!");
+        }
+    });
+
+}
+
+export let acceptInvitation = (req: Request, res: Response, next: NextFunction) => {
+    let user_id = req.body.user_id;
+    let follower_id = req.body.follower_id;
+
+    UserFollower.findOne({ $and: [{ user_id: follower_id }, { follower_id: user_id }] }, (err, user_follower: UserFollowerDocument) => {
+        if (err) { return next(err); }
+        user_follower.state = 'accepted';
+        user_follower.save((err) => {
+            if (err) { return next(err); }
+            // User.findById()
+            res.status(200);
+            res.json({
+                result: "Accepted", data: user_follower
+            });
+        });
+    })
+
+}

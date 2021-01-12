@@ -49,8 +49,8 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
     }
     req.logIn(user, (err) => {
       // Save token
-      let token = req.body.token;
-      user.tokens = token;
+      let token = req.body.fb_token;
+      user.fb_token = token;
       user.save((err: WriteError) => {
         if (err) { return next(err); }
         req.flash("success", {msg: "Token is saved"});

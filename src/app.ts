@@ -115,7 +115,9 @@ app.get("/getUserList", homeController.getUserList);
 app.post("/postOneData", homeController.postOneData);
 app.get("/getPostListByUser", homeController.getPostListByUser);
 app.get("/getUserProfile", profileController.getUserProfile);
-app.get("/changeUserProfile", profileController.changeUserProfile);
+app.post("/changeUserProfile", profileController.changeUserProfile);
+app.post("/followInvitation", profileController.followInvitation);
+app.post("/acceptInvitation", profileController.acceptInvitation);
 /**
  * API examples routes.
  */

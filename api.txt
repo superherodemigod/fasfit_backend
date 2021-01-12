@@ -1,5 +1,7 @@
 you can get login user data after login.
 then you can send me user_id
+
+in postLogin api, you have to send fb_token(firebase token) by body data to save token in user data. 
 1. /postOneData         POST
     user_id: string
     title: string,
@@ -26,3 +28,10 @@ then you can send me user_id
     scope_type: string
 6. /getUserProfile      GET 
     user_id: string
+
+7. /followInvitation    POST 
+    user_id: string
+    follower_id: string
+8. /acceptInvitation    POST 
+    user_id: string
+    follower_id: string
