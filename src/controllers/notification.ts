@@ -60,13 +60,20 @@ export let sendCommentNotification = (req: Request, res: Response, next: NextFun
 }
 
 export let getCommentNotifications = (req: Request, res: Response, next: NextFunction) => {
-    let user_id = req.body.user_id;
-    PostComment.find({receiver_id: user_id}, (err, notifications) => {
-        if (err) { return next(err); }
-        res.json({
-            data: notifications
-        });
-    })
+    // let user_id = req.body.user_id;
+    // let notifications = [];
+    // PostComment.find({receiver_id: user_id}, (err, notifications) => {
+    //     if (err) { return next(err); }
+    //     notifications.forEach((notification) =>{
+    //         Post.findById(notification.post_id, (err, post) =>{
+    //             if (err) { return next(err); }
+    //             notification.image = post.image;
+
+    //         })
+    //     })
+        
+    // })
+    // res.send(notifications);
 }
 
 export let getLikeNotifications = (req: Request, res: Response, next: NextFunction) => {

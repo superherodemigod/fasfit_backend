@@ -124,6 +124,8 @@ app.get("/getWorldDetailByName", worldController.getWorldDetailByName);
 app.post("/postWorldInfo", worldController.postWorldInfo);
 app.post("/sendCommentNotification", notificationController.sendCommentNotification);
 app.post("/sendLikeNotification", notificationController.sendLikeNotification);
+app.get("/getCommentNotifications", notificationController.getCommentNotifications);
+app.get("/getLikeNotifications", notificationController.getCommentNotifications);
 
 /**
  * API examples routes.
