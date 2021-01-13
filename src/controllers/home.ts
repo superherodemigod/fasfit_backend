@@ -51,7 +51,7 @@ export let getPostListByUser = (req: Request, res: Response, next: NextFunction)
 
 }
 
-export let postOneData = (req: Request, res: Response, next: NextFunction) => {
+export let addPost = (req: Request, res: Response, next: NextFunction) => {
   const post = new Post({
     user_id: req.body.user_id,
     title: req.body.email,

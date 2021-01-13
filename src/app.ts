@@ -25,6 +25,7 @@ import * as userController from "./controllers/user";
 import * as apiController from "./controllers/api";
 import * as contactController from "./controllers/contact";
 import * as profileController from "./controllers/profile";
+import * as worldController from "./controllers/world";
 
 
 // API keys and Passport configuration
@@ -112,12 +113,16 @@ app.post("/account/password", passportConfig.isAuthenticated, userController.pos
 app.post("/account/delete", passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get("/account/unlink/:provider", passportConfig.isAuthenticated, userController.getOauthUnlink);
 app.get("/getUserList", homeController.getUserList);
-app.post("/postOneData", homeController.postOneData);
+app.post("/addPost", homeController.addPost);
 app.get("/getPostListByUser", homeController.getPostListByUser);
 app.get("/getUserProfile", profileController.getUserProfile);
 app.post("/changeUserProfile", profileController.changeUserProfile);
 app.post("/followInvitation", profileController.followInvitation);
 app.post("/acceptInvitation", profileController.acceptInvitation);
+app.get("/getWorldList", worldController.getWorldList);
+app.get("/getWorldDetailByName", worldController.getWorldDetailByName);
+app.post("/postWorldInfo", worldController.postWorldInfo);
+
 /**
  * API examples routes.
  */

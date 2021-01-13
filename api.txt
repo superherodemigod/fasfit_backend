@@ -2,7 +2,7 @@ you can get login user data after login.
 then you can send me user_id
 
 in postLogin api, you have to send fb_token(firebase token) by body data to save token in user data. 
-1. /postOneData         POST
+1. /addPost         POST
     user_id: string
     title: string,
     description: string,
@@ -35,3 +35,19 @@ in postLogin api, you have to send fb_token(firebase token) by body data to save
 8. /acceptInvitation    POST 
     user_id: string
     follower_id: string
+
+9. /postWorldInfo       POST
+    "user_id": string,
+	"world_name": string,
+    "title": string,
+    "content1": string,
+    "content2": string,
+    "image": string,
+    "color": string
+
+10. /getWorldDetailByName   GET
+    "user_id": string
+    "world_name": string
+
+11. /getWorldList           GET
+    user_id: string
