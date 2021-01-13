@@ -26,7 +26,7 @@ import * as apiController from "./controllers/api";
 import * as contactController from "./controllers/contact";
 import * as profileController from "./controllers/profile";
 import * as worldController from "./controllers/world";
-
+import * as notificationController from "./controllers/notification";
 
 // API keys and Passport configuration
 import * as passportConfig from "./config/passport";
@@ -122,6 +122,8 @@ app.post("/acceptInvitation", profileController.acceptInvitation);
 app.get("/getWorldList", worldController.getWorldList);
 app.get("/getWorldDetailByName", worldController.getWorldDetailByName);
 app.post("/postWorldInfo", worldController.postWorldInfo);
+app.post("/sendCommentNotification", notificationController.sendCommentNotification);
+app.post("/sendLikeNotification", notificationController.sendLikeNotification);
 
 /**
  * API examples routes.

@@ -1,13 +1,15 @@
 import mongoose from "mongoose";
 
 export type PostLikeDocument = mongoose.Document & {
-    user_id: string,
+    sender_id: string,
+    receiver_id: string,
     post_id: string,
     content: string,
 };
 
 const postLikeSchema = new mongoose.Schema({
-    user_id: String,
+    sender_id: String,
+    receiver_id: String,
     post_id: String,
     content: String,
 }, { timestamps: true });
