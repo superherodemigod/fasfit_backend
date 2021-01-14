@@ -64,3 +64,4 @@ in postLogin api, you have to send fb_token(firebase token) by body data to save
 14. /getCommentNotifications    GET
     user_id: string
 15. /getLikeNotifications   GET
+    user_id: string
