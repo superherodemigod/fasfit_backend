@@ -27,6 +27,7 @@ import * as contactController from "./controllers/contact";
 import * as profileController from "./controllers/profile";
 import * as worldController from "./controllers/world";
 import * as notificationController from "./controllers/notification";
+import * as faslanceController from "./controllers/faslance";
 
 // API keys and Passport configuration
 import * as passportConfig from "./config/passport";
@@ -126,7 +127,8 @@ app.post("/sendCommentNotification", notificationController.sendCommentNotificat
 app.post("/sendLikeNotification", notificationController.sendLikeNotification);
 app.get("/getCommentNotifications", notificationController.getCommentNotifications);
 app.get("/getLikeNotifications", notificationController.getCommentNotifications);
-
+app.post("/createFaslance", faslanceController.createFaslance);
+app.get("/getFaslanceListByProfession", faslanceController.getFaslanceListByProfession);
 /**
  * API examples routes.
  */

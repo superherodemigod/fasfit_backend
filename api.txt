@@ -65,3 +65,31 @@ in postLogin api, you have to send fb_token(firebase token) by body data to save
     user_id: string
 15. /getLikeNotifications   GET
     user_id: string
+
+16. /getFaslanceListByProfession GET
+    user_id: string
+    profession: string
+
+17. /changeFaslance             POST
+    user_id: string
+    username: string
+    email: string
+    profession: string
+    location: string
+    prices: string
+    summary: string
+    links: string
+    profile_image: string
+    gallarys: string
+
+18. /createFaslance             POST
+    user_id: string
+    username: string
+    email: string
+    profession: string
+    location: string
+    prices: string
+    summary: string
+    links: string
+    profile_image: string
+    gallarys: string

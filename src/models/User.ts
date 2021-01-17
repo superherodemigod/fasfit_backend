@@ -19,7 +19,10 @@ export type UserDocument = mongoose.Document & {
     location: string,
     website: string,
     picture: string
-  },  
+  }, 
+  faslance: {
+    
+  }, 
   usertype: string,
   scope_type: [string],
 
