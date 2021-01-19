@@ -7,7 +7,21 @@ export let getUserProfile = (req: Request, res: Response, next: NextFunction) =>
     // console.log("user:", req.user.id);
     let scopeType;
     let user_id = req.body.user_id;
-    // UserFollower.f
+
+    let following = 0;
+    let follower = 0;
+    UserFollower.find({ user_id: user_id }, (err, result) => {
+        if (err) { return next(err); }
+        if (result) {
+            following = result.length;
+          }
+    })
+    UserFollower.find({ follower_id: user_id }, (err, result) => {
+        if (err) { return next(err); }
+        if (result) {
+            follower = result.length;
+        }
+    })
     User.findById(user_id, (err, user: UserDocument) => {
         if (err) { return next(err); }
         scopeType = user.scope_type;
@@ -19,11 +33,11 @@ export let getUserProfile = (req: Request, res: Response, next: NextFunction) =>
             users.forEach((index) => {
                 user_ids.push(index._id);
             })
-            // console.log(user_ids);
+
             Post.find({ user_id: { $in: user_ids } }, (err, posts) => {
                 if (err) { return next(err); }
                 res.json({
-                    user: user.profile, userlist: users, post: posts
+                    user: user.profile, userlist: users, post: posts, following: following, follower: follower
                 });
             })
         })
@@ -78,15 +92,19 @@ export let acceptInvitation = (req: Request, res: Response, next: NextFunction) 
 
     UserFollower.findOne({ $and: [{ user_id: follower_id }, { follower_id: user_id }] }, (err, user_follower: UserFollowerDocument) => {
         if (err) { return next(err); }
-        user_follower.state = 'accepted';
-        user_follower.save((err) => {
-            if (err) { return next(err); }
-            // User.findById()
-            res.status(200);
-            res.json({
-                result: "Accepted", data: user_follower
+        if (user_follower) {
+            user_follower.state = 'accepted';
+            user_follower.save((err) => {
+                if (err) { return next(err); }
+                // User.findById()
+                res.status(200);
+                res.json({
+                    result: "Accepted", data: user_follower
+                });
             });
-        });
+        }
+        res.send("No invitation to accept");
+
     })
 
 }

@@ -93,3 +93,4 @@ in postLogin api, you have to send fb_token(firebase token) by body data to save
     links: string
     profile_image: string
     gallarys: string
+

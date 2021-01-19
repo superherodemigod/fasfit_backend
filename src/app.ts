@@ -129,6 +129,10 @@ app.get("/getCommentNotifications", notificationController.getCommentNotificatio
 app.get("/getLikeNotifications", notificationController.getCommentNotifications);
 app.post("/createFaslance", faslanceController.createFaslance);
 app.get("/getFaslanceListByProfession", faslanceController.getFaslanceListByProfession);
+app.post("/createTips", faslanceController.createTips);
+app.get("/getFaslance", faslanceController.getFaslance);
+app.get("/getTipsList", faslanceController.getTipsList);
+app.post("/setRatingAndReview", faslanceController.setRatingAndReview);
 /**
  * API examples routes.
  */

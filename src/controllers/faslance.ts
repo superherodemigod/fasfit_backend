@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { User, UserDocument, AuthToken } from "../models/User";
 import { Faslance, FaslanceDocument } from "../models/Faslance";
 import { Rating, RatingDocument } from "../models/Rating";
+import { ObjectID } from "mongodb";
+import { Tips } from "../models/Tips";
 
 export let getFaslanceListByProfession = (req: Request, res: Response, next: NextFunction) => {
     let user_id = req.body.user_id;
@@ -96,4 +98,112 @@ export let createFaslance = (req: Request, res: Response, next: NextFunction) =>
             res.send("Already Exist!");
         }
     })
+}
+
+export let setRatingAndReview = (req: Request, res: Response, next: NextFunction) => {
+    let rating = new Rating({
+        client_id: req.body.client_id,
+        faslance_id: req.body.faslance_id,
+        rate: req.body.rate,
+        review: req.body.review,
+        complete: req.body.complete,
+    });
+    rating.save((err) => {
+        if (err) { return next(err); }
+        res.json({ "data": rating });
+    });
+}
+
+export let getFaslance = (req: Request, res: Response, next: NextFunction) => {
+    let user_id = req.body.user_id;
+    Faslance.findOne({ user_id: user_id }, (err, result) => {
+        if (err) { return next(err); }
+        let faslancer_id = result._id;
+        Rating.find({ faslancer_id: faslancer_id }, (err, ratings) => {
+            if (err) { return next(err); }
+            res.json({ "faslance": result, "ratings": ratings });
+        })
+
+    })
+}
+
+export let getFaslancePOV = (req: Request, res: Response, next: NextFunction) => {
+    let user_id = req.body.user_id;
+    Faslance.findOne({ user_id: user_id }, (err, faslance) => {
+        if (err) { return next(err); }
+        let scopeType;
+        let faslances = new Array();
+        User.findById(user_id, (err, user: UserDocument) => {
+            if (err) { return next(err); }
+            scopeType = user.scope_type;
+            User.find({ scope_type: { $in: scopeType } }, function (err, users) {
+                if (err) {
+                    return next(err);
+                }
+                let count = 0;
+                users.forEach((user) => {
+                    Faslance.find({ user_id: user._id }, (err, result) => {
+                        if (err) { return next(err); }
+                        count++;
+
+                        if (result) {
+                            faslances.push(user);
+                        }
+                        if (users.length === count + 1) {
+                            res.json({ "faslance": faslance, "pov": faslances });
+                        }
+                    })
+                })
+            })
+        });
+    })
+}
+
+export let createTips = (req: Request, res: Response, next: NextFunction) => {
+    let tips = new Tips({
+        user_id: req.body.user_id,
+        content: req.body.content
+    })
+    tips.save(err => {
+        if (err) { return next(err); }
+        res.json({ "data": tips });
+    })
+}
+export let getTipsList = (req: Request, res: Response, next: NextFunction) => {
+    let user_id = req.body.user_id;
+    let tips = Array();
+    let scopeType;
+    User.findById(user_id, (err, user: UserDocument) => {
+        if (err) { return next(err); }
+        scopeType = user.scope_type;
+        User.find({ scope_type: { $in: scopeType } }, function (err, users) {
+            if (err) {
+                return next(err);
+            }
+            let count = 0;
+            users.forEach((user) => {
+                Tips.find({ user_id: user._id }, (err, result) => {
+                    if (err) { return next(err); }
+                    count++;
+                    if (result) {
+                        let username = user.username;
+                        let image = user.profile.picture;
+                        let jsonSTR = JSON.stringify(result);
+                        result = JSON.parse(jsonSTR);
+
+                        tips.push({
+                            ...result,
+                            "username": username,
+                            "image": image
+                        });
+                    }
+                    if (users.length === count + 1) {
+                        console.log("tips");
+                        res.json({ "data": tips });
+                    }
+                })
+            })
+            // res.json({ "data": faslances });
+        })
+    });
 }
