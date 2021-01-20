@@ -18,6 +18,7 @@ export type UserDocument = mongoose.Document & {
   profile: {
     name: string,
     gender: string,
+    phoneNumber: string,
     location: string,
     website: string,
     picture: string
@@ -51,6 +52,7 @@ const userSchema = new mongoose.Schema({
   profile: {
     name: String,
     gender: String,
+    phoneNumber: String,
     location: String,
     website: String,
     picture: String

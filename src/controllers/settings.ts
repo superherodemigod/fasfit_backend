@@ -12,8 +12,9 @@ export let createAccount = (req: Request, res: Response, next: NextFunction) => 
   let success_flag = false;
 
   if (errors) {
-    req.flash("errors", errors);
-    return res.redirect("/createAccount");
+    // req.flash("errors", errors);
+    // return res.redirect("/createAccount");
+    req.json({msg: errors})
   }
 
   const user = new User({
@@ -21,6 +22,7 @@ export let createAccount = (req: Request, res: Response, next: NextFunction) => 
     email: req.body.email,
     password: req.body.password,
     usertype: req.body.usertype,
+
   });
 
   // console.log("user:", user);
