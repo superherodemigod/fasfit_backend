@@ -10,6 +10,8 @@ export type UserDocument = mongoose.Document & {
   passwordResetExpires: Date,
 
   facebook: string,
+  twitter: string,
+  google: string,
   tokens: AuthToken[],
 
   fb_token: string
@@ -19,10 +21,7 @@ export type UserDocument = mongoose.Document & {
     location: string,
     website: string,
     picture: string
-  }, 
-  faslance: {
-    
-  }, 
+  },
   usertype: string,
   scope_type: [string],
 
