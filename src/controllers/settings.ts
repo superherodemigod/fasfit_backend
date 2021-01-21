@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 export let createAccount = (req: Request, res: Response, next: NextFunction) => {
   req.assert("email", "Email is not valid").isEmail();
   req.assert("password", "Password must be at least 4 characters long").len({ min: 4 });
-  req.assert("confirmPassword", "Passwords do not match").equals(req.body.password);
+  // req.assert("confirmPassword", "Passwords do not match").equals(req.body.password);
   req.sanitize("email").normalizeEmail({ gmail_remove_dots: false });
 
   const errors = req.validationErrors();
@@ -14,14 +14,22 @@ export let createAccount = (req: Request, res: Response, next: NextFunction) => 
   if (errors) {
     // req.flash("errors", errors);
     // return res.redirect("/createAccount");
-    req.json({msg: errors})
+    res.json({msg: errors})
   }
 
   const user = new User({
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
-    usertype: req.body.usertype,
+    // usertype: req.body.usertype,
+    profile: {
+      name: req.body.profile.name,
+      gender: req.body.profile.gender,
+      phoneNumber: req.body.profile.phoneNumber,
+      location: req.body.profile.location,
+      website: req.body.profile.website,
+      picture: req.body.profile.picture
+    },
 
   });
 
@@ -31,20 +39,28 @@ export let createAccount = (req: Request, res: Response, next: NextFunction) => 
     if (existingUser) {
       // req.flash("errors", { msg: "Account with that email address already exists." });
       // return res.redirect("/createAccount");
-      req.json({msg: "Account with that email address already exists."});
+      res.json({msg: "Account with that email address already exists."});
     }
     user.save((err) => {
       if (err) { return next(err); }
-      req.logIn(user, (err) => {
-        if (err) {
-          return next(err);
-        }
-        success_flag = true;
-        res.status(200);
-        res.json({
-          result: success_flag, data: user
-        });
+      success_flag = true;
+      res.status(200);
+      res.json({
+        result: success_flag, data: user
       });
+      // });
     });
   });
 };
+
+export let switchAccount = (req: Request, res: Response, next: NextFunction) => {
+  let user_id = req.body.user_id;
+  User.findById("user_id", (err, user) => {
+    if (err) { return next(err); }
+    if(user){
+      res.json({
+        result: "success", data: user
+      })
+    }
+  })
+}
