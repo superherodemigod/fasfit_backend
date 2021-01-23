@@ -23,7 +23,7 @@ export type UserDocument = mongoose.Document & {
     website: string,
     picture: string
   },
-  callab: string,
+  callab: boolean,
   deactivate: boolean,
   usertype: string,
   scope_type: [string],
@@ -59,7 +59,7 @@ const userSchema = new mongoose.Schema({
     website: String,
     picture: String
   },
-  callab: String,
+  callab: Boolean,
   deactivate: Boolean,
   usertype: { type: String, default: 'personal' },
   scope_type: [String],

@@ -135,6 +135,8 @@ app.get("/getFaslance", faslanceController.getFaslance);
 app.get("/getTipsList", faslanceController.getTipsList);
 app.post("/setRatingAndReview", faslanceController.setRatingAndReview);
 app.post("/createAccount", settingsController.createAccount);
+app.get("/getAccounts", settingsController.getAccounts);
+app.get("/switchAccount", settingsController.switchAccount);
 /**
  * API examples routes.
  */

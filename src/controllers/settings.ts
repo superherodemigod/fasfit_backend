@@ -30,7 +30,7 @@ export let createAccount = (req: Request, res: Response, next: NextFunction) => 
       website: req.body.profile.website,
       picture: req.body.profile.picture
     },
-
+    deactivate: false
   });
 
   // console.log("user:", user);
@@ -55,12 +55,23 @@ export let createAccount = (req: Request, res: Response, next: NextFunction) => 
 
 export let switchAccount = (req: Request, res: Response, next: NextFunction) => {
   let user_id = req.body.user_id;
-  User.findById("user_id", (err, user) => {
+  User.findById("user_id", (err, user: UserDocument) => {
     if (err) { return next(err); }
     if(user){
+      user.deactivate = true;
+      user.save();
       res.json({
         result: "success", data: user
       })
     }
+  })
+}
+
+export let getAccounts = (req: Request, res: Response, next: NextFunction) => {
+  User.find({deactivate: { $exists: true, $ne: null }}, (err, result) =>{
+    if (err) { return next(err); }
+    res.json({
+      data: result
+    })
   })
 }
