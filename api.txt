@@ -94,9 +94,22 @@ in postLogin api, you have to send fb_token(firebase token) by body data to save
     profile_image: string
     gallarys: string
 
-19. /setRatingAndReview
+19. /setRatingAndReview       POST
     client_id: string
     faslance_id: string
     rate: string
     review: string
     complete: string
+
+20. /getFaslance              GET
+    user_id: string
+
+21. /getFaslancePOV           GET
+    user_id: string
+
+22. /createTips               Post
+    user_id: string
+    content: string
+
+23. /getTipsList              GET
+    user_id: string
