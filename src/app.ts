@@ -13,7 +13,6 @@ import passport from "passport";
 import expressValidator from "express-validator";
 import bluebird from "bluebird";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
-
 const MongoStore = mongo(session);
 
 // Load environment variables from .env file, where API keys and passwords are configured

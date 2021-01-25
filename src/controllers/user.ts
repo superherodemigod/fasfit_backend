@@ -6,6 +6,7 @@ import { User, UserDocument, AuthToken } from "../models/User";
 import { Request, Response, NextFunction } from "express";
 import { IVerifyOptions } from "passport-local";
 import { WriteError } from "mongodb";
+import admin from "../firebase-config";
 import "../config/passport";
 const request = require("express-validator");
 
@@ -47,13 +48,30 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
       req.flash("errors", info.message);
       return res.redirect("/login");
     }
+
+    const notification_options = {
+      priority: "high",
+      timeToLive: 60 * 60 * 24
+    };
     req.logIn(user, (err) => {
       // Save token
-      let token = req.body.fb_token;
-      user.fb_token = token;
+      const registrationToken = req.body.registrationToken
+      user.fb_token = registrationToken;
+      const message = req.body.message
+      const options = notification_options
+
+      admin.messaging().sendToDevice(registrationToken, message, options)
+        .then((response) => {
+          console.log(response);
+          res.status(200).send("Notification sent successfully")
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        
       user.save((err: WriteError) => {
         if (err) { return next(err); }
-        req.flash("success", {msg: "Token is saved"});
+        req.flash("success", { msg: "Token is saved" });
       });
       if (err) { return next(err); }
       req.flash("success", { msg: "Success! You are logged in." });

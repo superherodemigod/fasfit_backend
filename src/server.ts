@@ -1,12 +1,12 @@
 import errorHandler from "errorhandler";
 
 import app from "./app";
+import admin from "./firebase-config";
 
 /**
  * Error Handler. Provides full stack - remove for production
  */
 app.use(errorHandler());
-
 /**
  * Start Express server.
  */
