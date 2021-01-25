@@ -49,26 +49,31 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
       return res.redirect("/login");
     }
 
-    const notification_options = {
-      priority: "high",
-      timeToLive: 60 * 60 * 24
-    };
     req.logIn(user, (err) => {
       // Save token
       const registrationToken = req.body.registrationToken
       user.fb_token = registrationToken;
-      const message = req.body.message
-      const options = notification_options
+      const payload = {
+        notification: {
+          title: 'Notification Title',
+          body: 'This is an example notification',
+        }
+      };
 
-      admin.messaging().sendToDevice(registrationToken, message, options)
-        .then((response) => {
+      const options = {
+        priority: 'high',
+        timeToLive: 60 * 60 * 24, // 1 day
+      };
+
+      admin.messaging().sendToDevice(registrationToken, payload, options)
+        .then((response: any) => {
           console.log(response);
           res.status(200).send("Notification sent successfully")
         })
-        .catch((error) => {
+        .catch((error: any) => {
           console.log(error);
         });
-        
+
       user.save((err: WriteError) => {
         if (err) { return next(err); }
         req.flash("success", { msg: "Token is saved" });
