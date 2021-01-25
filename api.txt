@@ -1,7 +1,7 @@
 you can get login user data after login.
 then you can send me user_id
 
-in postLogin api, you have to send fb_token(firebase token) by body data to save token in user data.
+in postLogin api, you have to send registeration(firebase token) by body data to save token in user data.
 1. /addPost         POST
     user_id: string
     title: string,

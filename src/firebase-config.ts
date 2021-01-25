@@ -1,6 +1,7 @@
 var admin = require("firebase-admin");
 
-var serviceAccount = require("./fasfit-e8f80-firebase-adminsdk-jqjq0-15de5e51a0.json");
+import * as serviceAccount from "./fasfit-e8f80-firebase-adminsdk-jqjq0-15de5e51a0.json";
+// var serviceAccount = require ("./fasfit-e8f80-firebase-adminsdk-jqjq0-15de5e51a0.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
