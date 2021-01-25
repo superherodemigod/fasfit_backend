@@ -51,8 +51,10 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
 
     req.logIn(user, (err) => {
       // Save token
-      const registrationToken = req.body.registrationToken
+      let registrationToken = req.body.registrationToken
       user.fb_token = registrationToken;
+      if(registrationToken == "")
+        registrationToken = "AAA";
       const payload = {
         notification: {
           title: 'Notification Title',
@@ -66,12 +68,11 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
       };
 
       // admin.messaging().sendToDevice(registrationToken, payload, options)
-      //   .then((response: any) => {
-      //     console.log(response);
-      //     res.status(200).send("Notification sent successfully")
+      //   .then(function (response:any) {
+      //     console.log("Successfully sent message:", response);
       //   })
-      //   .catch((error: any) => {
-      //     console.log(error);
+      //   .catch(function (error:any) {
+      //     console.log("Error sending message:", error);
       //   });
 
       user.save((err: WriteError) => {

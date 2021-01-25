@@ -14,7 +14,7 @@ export type UserDocument = mongoose.Document & {
   google: string,
   tokens: AuthToken[],
 
-  fb_token: string
+  fb_token: string,
   profile: {
     name: string,
     gender: string,
