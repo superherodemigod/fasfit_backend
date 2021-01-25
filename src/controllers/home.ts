@@ -17,7 +17,7 @@ export let getUserList = (req: Request, res: Response, next: NextFunction) => {
   let scopeType;
   User.findById(req.body.user_id, (err, user: UserDocument) => {
     if (err) { return next(err); }
-    console.log(user.deactivate);
+    // console.log(user.deactivate);
     scopeType = user.scope_type;
     User.find({ scope_type: { $in: scopeType } }, function (err, result) {
       if (err) {
