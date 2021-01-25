@@ -27,7 +27,7 @@ export let getUserList = (req: Request, res: Response, next: NextFunction) => {
         res.send(result);
       })
     } else {
-      res.send({"result": "No users!"})
+      res.send({"result": []})
     }
   });
 }
@@ -54,7 +54,7 @@ export let getPostListByUser = (req: Request, res: Response, next: NextFunction)
         })
       })
     } else {
-      res.send({"result": "No posts!"})
+      res.send({"result": []})
     }
   });
 
