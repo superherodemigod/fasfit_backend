@@ -18,7 +18,7 @@ export let getUserList = (req: Request, res: Response, next: NextFunction) => {
   User.findById(req.body.user_id, (err, user: UserDocument) => {
     if (err) { return next(err); }
     // console.log(user.deactivate);
-    if( typeof user.scope_type !== 'undefined' && user.scope_type){
+    if(typeof user !== 'undefined' && user){
       scopeType = user.scope_type;
       User.find({ scope_type: { $in: scopeType } }, function (err, result) {
         if (err) {
@@ -37,7 +37,7 @@ export let getPostListByUser = (req: Request, res: Response, next: NextFunction)
   let scopeType;
   User.findById(req.body.user_id, (err, user: UserDocument) => {
     if (err) { return next(err); }
-    if( typeof user.scope_type !== 'undefined' && user.scope_type){
+    if(typeof user !== 'undefined' && user){
       scopeType = user.scope_type;
       User.find({ scope_type: { $in: scopeType } }, function (err, user) {
         if (err) {
