@@ -6,10 +6,10 @@ import { ObjectID } from "mongodb";
 import { Tips } from "../models/Tips";
 
 export let getFaslanceListByProfession = (req: Request, res: Response, next: NextFunction) => {
-    let user_id = req.body.user_id;
-    let profession = req.body.profession;
+    const user_id = req.body.user_id;
+    const profession = req.body.profession;
     let faslances = Array();
-    let scopeType;
+    const scopeType;
     User.findById(user_id, (err, user: UserDocument) => {
         if (err) { return next(err); }
         scopeType = user.scope_type;
@@ -39,7 +39,7 @@ export let getFaslanceListByProfession = (req: Request, res: Response, next: Nex
 }
 
 export let changeFaslance = (req: Request, res: Response, next: NextFunction) => {
-    let user_id = req.body.user_id;
+    const user_id = req.body.user_id;
 
     Faslance.findOne({ user_id: user_id }, (err, faslance: FaslanceDocument) => {
         if (err) { return next(err); }
@@ -63,18 +63,18 @@ export let changeFaslance = (req: Request, res: Response, next: NextFunction) =>
 }
 
 export let createFaslance = (req: Request, res: Response, next: NextFunction) => {
-    let user_id = req.body.user_id;
-    let username = req.body.username;
-    let email = req.body.email;
-    let profession = req.body.profession;
-    let location = req.body.location;
-    let prices = req.body.prices;
-    let summary = req.body.summary;
-    let links = req.body.links;
-    let profile_image = req.body.profile_image;
-    let gallarys = req.body.gallarys;
+    const user_id = req.body.user_id;
+    const username = req.body.username;
+    const email = req.body.email;
+    const profession = req.body.profession;
+    const location = req.body.location;
+    const prices = req.body.prices;
+    const summary = req.body.summary;
+    const links = req.body.links;
+    const profile_image = req.body.profile_image;
+    const gallarys = req.body.gallarys;
 
-    let faslance = new Faslance({
+    const faslance = new Faslance({
         user_id: user_id,
         username: username,
         email: email,
@@ -101,7 +101,7 @@ export let createFaslance = (req: Request, res: Response, next: NextFunction) =>
 }
 
 export let setRatingAndReview = (req: Request, res: Response, next: NextFunction) => {
-    let rating = new Rating({
+    const rating = new Rating({
         client_id: req.body.client_id,
         faslance_id: req.body.faslance_id,
         rate: req.body.rate,
@@ -115,10 +115,10 @@ export let setRatingAndReview = (req: Request, res: Response, next: NextFunction
 }
 
 export let getFaslance = (req: Request, res: Response, next: NextFunction) => {
-    let user_id = req.body.user_id;
+    const user_id = req.body.user_id;
     Faslance.findOne({ user_id: user_id }, (err, result) => {
         if (err) { return next(err); }
-        let faslancer_id = result._id;
+        const faslancer_id = result._id;
         Rating.find({ faslancer_id: faslancer_id }, (err, ratings) => {
             if (err) { return next(err); }
             res.json({ "faslance": result, "ratings": ratings });
@@ -128,10 +128,10 @@ export let getFaslance = (req: Request, res: Response, next: NextFunction) => {
 }
 
 export let getFaslancePOV = (req: Request, res: Response, next: NextFunction) => {
-    let user_id = req.body.user_id;
+    const user_id = req.body.user_id;
     Faslance.findOne({ user_id: user_id }, (err, faslance) => {
         if (err) { return next(err); }
-        let scopeType;
+        const scopeType;
         let faslances = new Array();
         User.findById(user_id, (err, user: UserDocument) => {
             if (err) { return next(err); }
@@ -160,7 +160,7 @@ export let getFaslancePOV = (req: Request, res: Response, next: NextFunction) =>
 }
 
 export let createTips = (req: Request, res: Response, next: NextFunction) => {
-    let tips = new Tips({
+    const tips = new Tips({
         user_id: req.body.user_id,
         content: req.body.content
     })
@@ -170,7 +170,7 @@ export let createTips = (req: Request, res: Response, next: NextFunction) => {
     })
 }
 export let getTipsList = (req: Request, res: Response, next: NextFunction) => {
-    let user_id = req.body.user_id;
+    const user_id = req.body.user_id;
     let tips = Array();
     let scopeType;
     User.findById(user_id, (err, user: UserDocument) => {
