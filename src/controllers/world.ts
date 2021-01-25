@@ -1,15 +1,31 @@
 import { NextFunction, Request, Response } from "express";
+import { words } from "lodash";
 import { World, WorldDocument } from "../models/World";
 
 export let getWorldList = (req: Request, res: Response, next: NextFunction) => {
     let user_id = req.body.user_id;
+    let worldnamelist = new Array();
     World.find({ user_id: user_id }, (err, world) => {
         if (err) {
             return next(err);
         }
-        res.json({
-            data: world
-        })
+        if(world){
+            let count = 0;
+            world.forEach(item => {
+                count++;
+                if(worldnamelist.indexOf(item.world_name) < 0){
+                    worldnamelist.push(item.world_name);
+                }
+                if(count == world.length){
+                    res.json({ data: worldnamelist});
+                }
+            })
+        } else {
+            res.json({data: []});
+        }
+        // res.json({
+        //     data: world
+        // })
     });
 }
 export let getWorldDetailByName = (req: Request, res: Response, next: NextFunction) => {
