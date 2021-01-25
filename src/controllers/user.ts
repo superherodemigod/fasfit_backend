@@ -65,14 +65,14 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
         timeToLive: 60 * 60 * 24, // 1 day
       };
 
-      admin.messaging().sendToDevice(registrationToken, payload, options)
-        .then((response: any) => {
-          console.log(response);
-          res.status(200).send("Notification sent successfully")
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
+      // admin.messaging().sendToDevice(registrationToken, payload, options)
+      //   .then((response: any) => {
+      //     console.log(response);
+      //     res.status(200).send("Notification sent successfully")
+      //   })
+      //   .catch((error: any) => {
+      //     console.log(error);
+      //   });
 
       user.save((err: WriteError) => {
         if (err) { return next(err); }
