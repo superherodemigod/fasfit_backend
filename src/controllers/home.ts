@@ -18,13 +18,17 @@ export let getUserList = (req: Request, res: Response, next: NextFunction) => {
   User.findById(req.body.user_id, (err, user: UserDocument) => {
     if (err) { return next(err); }
     // console.log(user.deactivate);
-    scopeType = user.scope_type;
-    User.find({ scope_type: { $in: scopeType } }, function (err, result) {
-      if (err) {
-        return next(err);
-      }
-      res.send(result);
-    })
+    if(user.scope_type){
+      scopeType = user.scope_type;
+      User.find({ scope_type: { $in: scopeType } }, function (err, result) {
+        if (err) {
+          return next(err);
+        }
+        res.send(result);
+      })
+    } else {
+      res.send({"result": "No users!"})
+    }
   });
 }
 
@@ -33,21 +37,25 @@ export let getPostListByUser = (req: Request, res: Response, next: NextFunction)
   let scopeType;
   User.findById(req.body.user_id, (err, user: UserDocument) => {
     if (err) { return next(err); }
-    scopeType = user.scope_type;
-    User.find({ scope_type: { $in: scopeType } }, function (err, user) {
-      if (err) {
-        return next(err);
-      }
-      let user_ids = new Array();
-      user.forEach((index) => {
-        user_ids.push(index._id);
+    if(user.scope_type){
+      scopeType = user.scope_type;
+      User.find({ scope_type: { $in: scopeType } }, function (err, user) {
+        if (err) {
+          return next(err);
+        }
+        let user_ids = new Array();
+        user.forEach((index) => {
+          user_ids.push(index._id);
+        })
+        // console.log(user_ids);
+        Post.find({ user_id: { $in: user_ids } }, (err, posts) => {
+          if (err) { return next(err); }
+          res.send(posts);
+        })
       })
-      // console.log(user_ids);
-      Post.find({ user_id: { $in: user_ids } }, (err, posts) => {
-        if (err) { return next(err); }
-        res.send(posts);
-      })
-    })
+    } else {
+      res.send({"result": "No posts!"})
+    }
   });
 
 }
