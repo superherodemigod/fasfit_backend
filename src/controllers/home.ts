@@ -24,10 +24,10 @@ export let getUserList = (req: Request, res: Response, next: NextFunction) => {
         if (err) {
           return next(err);
         }
-        res.send(result);
+        res.json({"data":result});
       })
     } else {
-      res.send({"result": []})
+      res.json({"data": []})
     }
   });
 }
@@ -50,11 +50,11 @@ export let getPostListByUser = (req: Request, res: Response, next: NextFunction)
         // console.log(user_ids);
         Post.find({ user_id: { $in: user_ids } }, (err, posts) => {
           if (err) { return next(err); }
-          res.send(posts);
+          res.json({"data":posts});
         })
       })
     } else {
-      res.send({"result": []})
+      res.json({"data": []})
     }
   });
 

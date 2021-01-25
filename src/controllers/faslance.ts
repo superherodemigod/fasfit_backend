@@ -9,7 +9,7 @@ export let getFaslanceListByProfession = (req: Request, res: Response, next: Nex
     const user_id = req.body.user_id;
     const profession = req.body.profession;
     let faslances = Array();
-    const scopeType;
+    let scopeType;
     User.findById(user_id, (err, user: UserDocument) => {
         if (err) { return next(err); }
         scopeType = user.scope_type;
@@ -131,7 +131,7 @@ export let getFaslancePOV = (req: Request, res: Response, next: NextFunction) =>
     const user_id = req.body.user_id;
     Faslance.findOne({ user_id: user_id }, (err, faslance) => {
         if (err) { return next(err); }
-        const scopeType;
+        let scopeType;
         let faslances = new Array();
         User.findById(user_id, (err, user: UserDocument) => {
             if (err) { return next(err); }
@@ -145,7 +145,6 @@ export let getFaslancePOV = (req: Request, res: Response, next: NextFunction) =>
                     Faslance.find({ user_id: user._id }, (err, result) => {
                         if (err) { return next(err); }
                         count++;
-
                         if (result) {
                             faslances.push(user);
                         }
