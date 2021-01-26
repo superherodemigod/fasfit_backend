@@ -52,9 +52,11 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
     req.logIn(user, (err) => {
       // Save token
       let registrationToken = req.body.registrationToken
-      user.fb_token = registrationToken;
-      if(registrationToken == "")
+      user.deviceToken = registrationToken;
+      
+      if(!registrationToken)
         registrationToken = "AAA";
+      // console.log(registrationToken);
       const payload = {
         notification: {
           title: 'Notification Title',
@@ -67,13 +69,13 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
         timeToLive: 60 * 60 * 24, // 1 day
       };
 
-      // admin.messaging().sendToDevice(registrationToken, payload, options)
-      //   .then(function (response:any) {
-      //     console.log("Successfully sent message:", response);
-      //   })
-      //   .catch(function (error:any) {
-      //     console.log("Error sending message:", error);
-      //   });
+      admin.messaging().sendToDevice(registrationToken, payload, options)
+        .then(function (response:any) {
+          console.log("Successfully sent message:", response);
+        })
+        .catch(function (error:any) {
+          console.log("Error sending message:", error);
+        });
 
       user.save((err: WriteError) => {
         if (err) { return next(err); }
