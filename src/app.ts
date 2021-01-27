@@ -126,7 +126,7 @@ app.post("/postWorldInfo", worldController.postWorldInfo);
 app.post("/sendCommentNotification", notificationController.sendCommentNotification);
 app.post("/sendLikeNotification", notificationController.sendLikeNotification);
 app.get("/getCommentNotifications", notificationController.getCommentNotifications);
-app.get("/getLikeNotifications", notificationController.getCommentNotifications);
+app.get("/getLikeNotifications", notificationController.getLikeNotifications);
 app.post("/createFaslance", faslanceController.createFaslance);
 app.get("/getFaslanceListByProfession", faslanceController.getFaslanceListByProfession);
 app.post("/createTips", faslanceController.createTips);

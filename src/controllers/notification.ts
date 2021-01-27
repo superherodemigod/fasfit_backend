@@ -123,6 +123,7 @@ export let getLikeNotifications = (req: Request, res: Response, next: NextFuncti
     let user_id = req.body.user_id;
     PostLike.find({ receiver_id: user_id }, (err, results) => {
         if (err) { return next(err); }
+        console.log(results);
         let notifications = Array();
         results.forEach((item) => {
             Post.findById(item.post_id, (err, post) => {
