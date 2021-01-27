@@ -12,7 +12,7 @@ export let getFaslanceListByProfession = (req: Request, res: Response, next: Nex
     let scopeType;
     User.findById(user_id, (err, user: UserDocument) => {
         if (err) { return next(err); }
-        if (user) {
+        if (user && user !== null && user !== undefined) {
             scopeType = user.scope_type;
             User.find({ scope_type: { $in: scopeType } }, function (err, users) {
                 if (err) {
@@ -25,7 +25,7 @@ export let getFaslanceListByProfession = (req: Request, res: Response, next: Nex
                     Faslance.find({ $and: [{ user_id: user._id }, { profession: profession }] }, (err, result) => {
                         if (err) { return next(err); }
                         count++;
-                        if (result.length>0) {
+                        if (result.length > 0) {
                             faslances.push(user);
                         }
                         if (users.length === count) {
