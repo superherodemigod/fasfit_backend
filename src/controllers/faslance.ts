@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { User, UserDocument, AuthToken } from "../models/User";
 import { Faslance, FaslanceDocument } from "../models/Faslance";
 import { Rating, RatingDocument } from "../models/Rating";
-import { ObjectID } from "mongodb";
+// import { ObjectID } from "mongodb";
 import { Tips } from "../models/Tips";
 
 export let getFaslanceListByProfession = (req: Request, res: Response, next: NextFunction) => {
@@ -25,11 +25,10 @@ export let getFaslanceListByProfession = (req: Request, res: Response, next: Nex
                     Faslance.find({ $and: [{ user_id: user._id }, { profession: profession }] }, (err, result) => {
                         if (err) { return next(err); }
                         count++;
-                        // console.log(resultStr);s
-                        if (result) {
+                        if (result.length>0) {
                             faslances.push(user);
                         }
-                        if (users.length === count + 1) {
+                        if (users.length === count) {
                             res.json({ "data": faslances });
                         }
                     })
