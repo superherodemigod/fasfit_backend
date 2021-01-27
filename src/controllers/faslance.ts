@@ -12,29 +12,34 @@ export let getFaslanceListByProfession = (req: Request, res: Response, next: Nex
     let scopeType;
     User.findById(user_id, (err, user: UserDocument) => {
         if (err) { return next(err); }
-        scopeType = user.scope_type;
-        User.find({ scope_type: { $in: scopeType } }, function (err, users) {
-            if (err) {
-                return next(err);
-            }
-            // res.send(user);
-            // console.log(users);
-            let count = 0;
-            users.forEach((user) => {
-                Faslance.find({ $and: [{ user_id: user._id }, { profession: profession }] }, (err, result) => {
-                    if (err) { return next(err); }
-                    count++;
-                    // console.log(resultStr);
-                    if (result) {
-                        faslances.push(user);
-                    }
-                    if (users.length === count + 1) {
-                        res.json({ "data": faslances });
-                    }
+        if (user) {
+            scopeType = user.scope_type;
+            User.find({ scope_type: { $in: scopeType } }, function (err, users) {
+                if (err) {
+                    return next(err);
+                }
+                // res.send(user);
+                // console.log(users);
+                let count = 0;
+                users.forEach((user) => {
+                    Faslance.find({ $and: [{ user_id: user._id }, { profession: profession }] }, (err, result) => {
+                        if (err) { return next(err); }
+                        count++;
+                        // console.log(resultStr);s
+                        if (result) {
+                            faslances.push(user);
+                        }
+                        if (users.length === count + 1) {
+                            res.json({ "data": faslances });
+                        }
+                    })
                 })
+                // res.json({ "data": faslances });
             })
-            // res.json({ "data": faslances });
-        })
+        } else {
+            res.json({ data: [] })
+        }
+
     });
 }
 
