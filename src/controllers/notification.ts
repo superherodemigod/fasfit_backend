@@ -105,7 +105,8 @@ export let getCommentNotifications = (req: Request, res: Response, next: NextFun
                     notifications.push({
                         ...item,
                         user_image: sender_img,
-                        post_image: post.image
+                        post_image: post.image,
+                        sender_name: user.username
                     });
                     if (notifications.length === results.length) {
                         res.json({
@@ -135,7 +136,8 @@ export let getLikeNotifications = (req: Request, res: Response, next: NextFuncti
                     notifications.push({
                         ...item,
                         user_image: sender_img,
-                        post_image: post.image
+                        post_image: post.image,
+                        sender_name: user.username
                     });
                     if (notifications.length === results.length) {
                         res.json({
