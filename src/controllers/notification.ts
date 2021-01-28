@@ -124,29 +124,32 @@ export let getLikeNotifications = (req: Request, res: Response, next: NextFuncti
     PostLike.find({ receiver_id: user_id }, (err, results) => {
         if (err) { return next(err); }
         console.log(results);
-        let notifications = Array();
-        results.forEach((item) => {
-            Post.findById(item.post_id, (err, post) => {
-                if (err) { return next(err); }
-                let sender_img;
-                User.findById(item.sender_id, (err, user) => {
+        if (results.length > 0) {
+            let notifications = Array();
+            results.forEach((item) => {
+                Post.findById(item.post_id, (err, post) => {
                     if (err) { return next(err); }
-                    sender_img = user.profile.picture;
-                    let jsonSTR = JSON.stringify(item);
-                    item = JSON.parse(jsonSTR);
-                    notifications.push({
-                        ...item,
-                        user_image: sender_img,
-                        post_image: post.image,
-                        sender_name: user.username
-                    });
-                    if (notifications.length === results.length) {
-                        res.json({
-                            data: notifications
+                    let sender_img;
+                    User.findById(item.sender_id, (err, user) => {
+                        if (err) { return next(err); }
+                        sender_img = user.profile.picture;
+                        let jsonSTR = JSON.stringify(item);
+                        item = JSON.parse(jsonSTR);
+                        notifications.push({
+                            ...item,
+                            user_image: sender_img,
+                            post_image: post.image,
+                            sender_name: user.username
                         });
-                    }
+                        if (notifications.length === results.length) {
+                            res.json({
+                                data: notifications
+                            });
+                        }
+                    })
                 })
             })
-        })
+        }
+
     })
 }

@@ -51,7 +51,8 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
 
     req.logIn(user, (err) => {
       // Save token
-      const registrationToken = req.body.registrationToken
+      // const registrationToken = req.body.registrationToken
+      const registrationToken = "cklAxuV-TUOwW3LAEeT5DB:APA91bFS9MXseHOkgP_Xv9sK0niYGHJGULoLrd_ONV7eypAnjCVsp957w-o1UhGj1erV4w16JweOqGVLe4ZUKdC2fyUNISmpQx1HRGXVxmn5yjTMRVGHsjCv6otiVYD2CN_PiyrfLJTB"
       user.deviceToken = registrationToken;
       
       const payload = {
