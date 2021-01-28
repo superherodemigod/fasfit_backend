@@ -56,18 +56,6 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
       // const registrationToken = "cklAxuV-TUOwW3LAEeT5DB:APA91bFS9MXseHOkgP_Xv9sK0niYGHJGULoLrd_ONV7eypAnjCVsp957w-o1UhGj1erV4w16JweOqGVLe4ZUKdC2fyUNISmpQx1HRGXVxmn5yjTMRVGHsjCv6otiVYD2CN_PiyrfLJTB"
       user.deviceToken = registrationToken;
       
-      const payload = {
-        notification: {
-          title: 'Notification Title',
-          body: 'This is an example notification',
-        }
-      };
-
-      const options = {
-        priority: 'high',
-        timeToLive: 60 * 60 * 24, // 1 day
-      };
-
       user.save((err: WriteError) => {
         if (err) { return next(err); }
         req.flash("success", { msg: "Token is saved" });
