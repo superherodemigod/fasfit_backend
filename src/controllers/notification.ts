@@ -64,7 +64,8 @@ export let sendCommentNotification = (req: Request, res: Response, next: NextFun
     let user_id = req.body.user_id;
     let post_id = req.body.post_id;
     let content = req.body.content;
-    let receiver_id = '';
+    let receiver_id;
+    let registrationToken;
     Post.findById(post_id, (err, post) => {
         if (err) { return next(err); }
         receiver_id = post.user_id;
@@ -76,6 +77,34 @@ export let sendCommentNotification = (req: Request, res: Response, next: NextFun
             post_id: post_id,
             content: content
         });
+
+        const payload = {
+            notification: {
+                title: 'Comment Notification',
+                body: 'I commented this post',
+            }
+        };
+
+        const options = {
+            priority: 'high',
+            timeToLive: 60 * 60 * 24, // 1 day
+        };
+
+        User.findById(receiver_id, (err, result) => {
+            if (err) { return next(err); }
+            if (result) {
+                registrationToken = result.deviceToken;
+                if (registrationToken) {
+                    admin.messaging().sendToDevice(registrationToken, payload, options)
+                        .then(function (response: any) {
+                            console.log("Successfully sent message:", response);
+                        })
+                        .catch(function (error: any) {
+                            console.log("Error sending message:", error);
+                        });
+                }
+            }
+        })
 
         comment.save((err) => {
             if (err) { return next(err); }
