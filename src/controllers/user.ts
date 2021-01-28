@@ -68,16 +68,6 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
         timeToLive: 60 * 60 * 24, // 1 day
       };
 
-      if(registrationToken){
-        admin.messaging().sendToDevice(registrationToken, payload, options)
-        .then(function (response:any) {
-          console.log("Successfully sent message:", response);
-        })
-        .catch(function (error:any) {
-          console.log("Error sending message:", error);
-        });
-      }
-
       user.save((err: WriteError) => {
         if (err) { return next(err); }
         req.flash("success", { msg: "Token is saved" });
