@@ -85,7 +85,7 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
       if (err) { return next(err); }
       req.flash("success", { msg: "Success! You are logged in." });
       // res.redirect("/");
-
+      console.log("user:", user);
       success_flag = true;
       res.status(200);
       res.json({
