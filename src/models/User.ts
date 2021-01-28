@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema({
   twitter: String,
   google: String,
   tokens: Array,
-  fb_token: String,
+  deviceToken: String,
   profile: {
     name: String,
     gender: String,
