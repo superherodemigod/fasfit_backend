@@ -178,35 +178,44 @@ export let getTipsList = (req: Request, res: Response, next: NextFunction) => {
     let scopeType;
     User.findById(user_id, (err, user: UserDocument) => {
         if (err) { return next(err); }
-        scopeType = user.scope_type;
-        User.find({ scope_type: { $in: scopeType } }, function (err, users) {
-            if (err) {
-                return next(err);
-            }
-            let count = 0;
-            users.forEach((user) => {
-                Tips.find({ user_id: user._id }, (err, result) => {
-                    if (err) { return next(err); }
-                    count++;
-                    if (result) {
-                        let username = user.username;
-                        let image = user.profile.picture;
-                        let jsonSTR = JSON.stringify(result);
-                        result = JSON.parse(jsonSTR);
+        if (!user) {
+            res.json({ "data": [] });
+        } else {
+            scopeType = user.scope_type;
+            User.find({ scope_type: { $in: scopeType } }, function (err, users) {
+                if (err) {
+                    return next(err);
+                }
+                if (!users) {
+                    res.json({ "data": [] });
+                } else {
+                    let count = 0;
+                    users.forEach((user) => {
+                        Tips.find({ user_id: user._id }, (err, result) => {
+                            if (err) { return next(err); }
+                            count++;
+                            if (result) {
+                                let username = user.username;
+                                let image = user.profile.picture;
+                                let jsonSTR = JSON.stringify(result);
+                                result = JSON.parse(jsonSTR);
 
-                        tips.push({
-                            ...result,
-                            "username": username,
-                            "image": image
-                        });
-                    }
-                    if (users.length === count + 1) {
-                        console.log("tips");
-                        res.json({ "data": tips });
-                    }
-                })
+                                tips.push({
+                                    ...result,
+                                    "username": username,
+                                    "image": image
+                                });
+                            }
+                            if (users.length === count + 1) {
+                                console.log("tips");
+                                res.json({ "data": tips });
+                            }
+                        })
+                    })
+                }
+
             })
-            // res.json({ "data": faslances });
-        })
+        }
+
     });
 }
